@@ -50,6 +50,9 @@
 
     <ul class="list-group">
         <li class="list-group-item" th:each="file : ${files}">
+            <span th:if="${file.pdf} == true">
+                <a th:href="@{'download/' + ${file.path}}" target="_blank">Download</a>
+            </span>
             <span th:text="${file.path}"></span>
             <span class="badge" th:text="${file.status}"></span>
         </li>

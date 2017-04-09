@@ -1,20 +1,22 @@
 package softax.controller;
 
-import com.google.common.collect.Lists;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import softax.model.FileToProcess;
+import softax.service.FileUploadService;
 
 @Controller
 public class DefaultController {
 
+    @Autowired
+    private FileUploadService fileUploadService;
+
     @RequestMapping("/")
     public String index(Model model) {
-        // TODO remove
-        model.addAttribute("files", Lists.newArrayList(FileToProcess.builder().path("a").status("b").build(),
-                FileToProcess.builder().path("d").status("c").build()));
+        model.addAttribute("files", fileUploadService.loadProcessFiles());
+
         return "home";
     }
 
@@ -23,6 +25,7 @@ public class DefaultController {
             Model model) {
         // TODO remove
         model.addAttribute("name", name);
+
 
         return "new_request";
     }

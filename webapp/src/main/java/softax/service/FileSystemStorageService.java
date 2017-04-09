@@ -34,6 +34,11 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
+    public void store(MultipartFile file, String filename) {
+        store(file, rootLocationPath, filename);
+    }
+
+    @Override
     public void store(MultipartFile file, Path path, String filename) {
         try {
             if (file.isEmpty()) {
@@ -71,6 +76,18 @@ public class FileSystemStorageService implements StorageService {
         try {
             return Files.walk(rootLocationPath)
                     .filter(path -> !path.equals(rootLocationPath))
+                    .map(path -> rootLocationPath.relativize(path));
+        } catch (IOException e) {
+            throw new StorageException("Failed to read stored files", e);
+        }
+    }
+
+    @Override
+    public Stream<Path> loadAll(String dir) {
+        try {
+            return Files.walk(dir == null ? rootLocationPath : Paths.get(dir), 1)
+                    .filter(path -> !path.equals(rootLocationPath))
+                    .filter(path -> !Files.isDirectory(path))
                     .map(path -> rootLocationPath.relativize(path));
         } catch (IOException e) {
             throw new StorageException("Failed to read stored files", e);

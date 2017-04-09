@@ -1,30 +1,36 @@
 package softax.controller;
 
 import java.io.IOException;
+import java.nio.file.Path;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import softax.exception.FileNotFoundException;
+import softax.service.FileUploadService;
 import softax.service.StorageService;
 
-@RestController
+@Controller
 public class FileUploadController {
 
     @Autowired
     private StorageService storageService;
+    @Autowired
+    private FileUploadService fileUploadService;
 
-    @RequestMapping(value = "/file", method = RequestMethod.GET)
-    public ResponseEntity<Resource> serveFile(@RequestParam("filename") String filename) throws IOException {
-        Resource file = storageService.loadAsResource(filename);
+    @RequestMapping(value = "/download/{filename:.+}", method = RequestMethod.GET)
+    public ResponseEntity<Resource> serveFile(@PathVariable String filename) throws IOException {
+        Path path = fileUploadService.loadPdf(filename);
+        Resource file = storageService.loadAsResource(path.toString());
         return ResponseEntity.ok()
                 .contentLength(file.contentLength())
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
@@ -34,8 +40,9 @@ public class FileUploadController {
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public String handleFileUpload(@RequestParam("file") MultipartFile file) {
-        storageService.store(file);
-        return "ok";
+        fileUploadService.uploadFile(file);
+
+        return "home";
     }
 
     @ExceptionHandler(FileNotFoundException.class)

@@ -6,6 +6,7 @@ activemq:
      - 61616:61616
     environment:
      - ACTIVEMQ_VERSION=5.14.4
+     - ACTIVEMQ_OPTS="-Dorg.apache.activemq.SERIALIZABLE_PACKAGES=*"
 
 webapp:
     restart: always
