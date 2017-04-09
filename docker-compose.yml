@@ -1,0 +1,9 @@
+activemq:
+    restart: always
+    image: activemq
+    ports:
+     - 8161:8161
+     - 61616:61616
+    environment:
+     - ACTIVEMQ_VERSION=5.14.4
+
