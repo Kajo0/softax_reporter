@@ -1,5 +1,6 @@
 package softax.service;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -40,6 +41,13 @@ public class FileUploadService {
         String filename = createFileName(file.getOriginalFilename());
         storageService.store(file, filename);
         log.info("File uploaded with name '{}'.", filename);
+
+        try {
+            Path statusFile = Paths.get(statusPath, filename + "_" + FileToProcess.Status.NEW);
+            Files.write(statusFile, "".getBytes());
+        } catch (IOException e) {
+            log.error("IOException during create new file.", statusPath.toString());
+        }
 
         jmsTemplate.convertAndSend("jmsQueue", filename);
     }

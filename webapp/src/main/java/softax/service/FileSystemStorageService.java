@@ -2,11 +2,14 @@ package softax.service;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
@@ -19,6 +22,8 @@ import softax.exception.StorageException;
 
 @Service
 public class FileSystemStorageService implements StorageService {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private Path rootLocationPath;
 
@@ -64,6 +69,23 @@ public class FileSystemStorageService implements StorageService {
         } catch (IOException e) {
             throw new StorageException("Failed to store file " + filename, e);
         }
+    }
+
+    @Override
+    public void rename(Path path, String filename) throws IOException {
+        if (!Files.exists(path)) {
+            log.error("File {} not exists.", path.toString());
+            throw new FileNotFoundException("File " + path.toString() + " not exists.");
+        }
+
+        Path newPath = Paths.get(path.getParent().toString(), filename);
+        if (Files.exists(newPath)) {
+            log.error("File {} already exists.", newPath.toString());
+            throw new FileAlreadyExistsException(newPath.toString());
+        }
+
+        log.info("Renaming {} to {}.", path.toString(), newPath.toString());
+        Files.move(path, newPath);
     }
 
     @Override

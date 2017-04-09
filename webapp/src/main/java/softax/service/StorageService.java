@@ -1,5 +1,6 @@
 package softax.service;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
@@ -15,6 +16,8 @@ public interface StorageService {
     void store(MultipartFile file, Path path, String filename);
 
     void store(byte[] file, Path path, String filename);
+
+    void rename(Path path, String filename) throws IOException;
 
     void deleteFile(Path path);
 

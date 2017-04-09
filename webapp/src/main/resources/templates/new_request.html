@@ -1,5 +1,5 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
@@ -46,7 +46,23 @@
 </nav>
 
 <div class="container">
-    <p th:text="'Hello, ' + ${name} + '!'"/>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form method="POST" enctype="multipart/form-data" action="/upload">
+                <table class="table">
+                    <tr>
+                        <td>File to upload:</td>
+                        <td><input type="file" name="file"/></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="text-center">
+                            <input class="btn btn-default" type="submit" value="Upload"/>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
 </div>
 
 </body>
