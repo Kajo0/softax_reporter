@@ -24,5 +24,12 @@ user@~/$ docker run -itd -p 8081:8080 --link activemq1:amq --name webapp1 webapp
 docker-compose up -d
 ```
 
-# App available:
+# App available
 [http://localhost:8081](http://localhost:8081)
+
+# ActiveMQ console
+[http://localhost:8161](http://localhost:8161)
+
+user: admin
+
+pass: admin
