@@ -67,6 +67,7 @@ public class FileUploadService {
         List<Path> paths = loadUploadedFiles();
         List<Path> statuses = loadStatuses();
 
+        paths.sort((p1, p2) -> p2.getFileName().compareTo(p1.getFileName()));
         paths.forEach(path -> {
             String filename = path.getFileName().toString();
             FileToProcess file = new FileToProcess(filename, null, false);

@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
@@ -48,7 +48,8 @@
 <div class="container">
     <div class="panel panel-default">
         <div class="panel-body">
-            <form method="POST" enctype="multipart/form-data" action="/upload">
+            <form method="POST" enctype="multipart/form-data" action="/upload"
+                  th:onsubmit="'return checkSize(' + ${maxFileSize} + ')'">
                 <table class="table">
                     <tr>
                         <td>File to upload:</td>
@@ -64,6 +65,17 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    function checkSize(maxSize) {
+        var input = document.getElementsByName("file")[0];
+        if (input.files[0].size > maxSize) {
+            alert("The file must be less than " + (maxSize / 1024) + " KB");
+            return false;
+        }
+        return true;
+    }
+</script>
 
 </body>
 </html>

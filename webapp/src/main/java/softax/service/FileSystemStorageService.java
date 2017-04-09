@@ -84,7 +84,7 @@ public class FileSystemStorageService implements StorageService {
             throw new FileAlreadyExistsException(newPath.toString());
         }
 
-        log.info("Renaming {} to {}.", path.toString(), newPath.toString());
+        log.debug("Renaming {} to {}.", path.toString(), newPath.toString());
         Files.move(path, newPath);
     }
 
