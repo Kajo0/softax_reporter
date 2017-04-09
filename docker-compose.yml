@@ -15,4 +15,6 @@ webapp:
      - 8081:8080
     environment:
      - WEBAPP_VERSION=1.0
+    links:
+     - "activemq:amq"
 
