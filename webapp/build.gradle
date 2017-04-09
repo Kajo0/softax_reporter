@@ -1,0 +1,41 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "io.spring.gradle:dependency-management-plugin:0.6.1.RELEASE"
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.3.6.RELEASE'
+        classpath 'org.springframework:springloaded:1.2.6.RELEASE'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: "io.spring.dependency-management"
+apply plugin: 'spring-boot'
+
+group 'softax'
+version '1.0'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+idea {
+    module {
+        inheritOutputDirs = false
+        outputDir = file("$buildDir/classes/main/")
+    }
+}
+
+jar {
+    baseName = 'reporter-webapp'
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-web:1.3.6.RELEASE'
+    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+    compile 'org.projectlombok:lombok:1.16.8'
+    compile 'com.google.guava:guava:19.0'
+}

@@ -1,0 +1,28 @@
+body {
+    padding-top: 50px;
+}
+
+.starter-template {
+    padding: 40px 15px;
+    text-align: center;
+}
+
+html body {
+    background-color: #cde;
+}
+
+li.inner1 {
+    text-indent: 2em;
+}
+
+li.inner2 {
+    text-indent: 4em;
+}
+
+.list-group {
+    margin-bottom: 10px !important;
+}
+
+.list-group-item {
+    padding: 5px 15px !important;
+}
