@@ -1,0 +1,14 @@
+FROM openjdk:8
+
+ENV WEBAPP_VERSION 1.0
+
+WORKDIR /opt
+
+ADD jars/reporter-webapp-${WEBAPP_VERSION}.jar ./webapp.jar
+
+RUN mkdir /tmp/softax
+
+EXPOSE 8080
+
+CMD ["java", "-jar", "webapp.jar"]
+

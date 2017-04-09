@@ -7,3 +7,11 @@ activemq:
     environment:
      - ACTIVEMQ_VERSION=5.14.4
 
+webapp:
+    restart: always
+    image: webapp
+    ports:
+     - 8081:8080
+    environment:
+     - WEBAPP_VERSION=1.0
+
